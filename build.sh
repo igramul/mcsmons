@@ -1,2 +1,2 @@
-podman build . -t webmcs:latest
+podman build . -t mcs:latest
 
