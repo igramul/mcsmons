@@ -1,11 +1,11 @@
-FROM python:3.6-alpine
+FROM python:3.10-alpine
 
 RUN python3 -m venv venv
 RUN venv/bin/pip install --upgrade pip setuptools
 COPY requirements.txt requirements.txt
 RUN venv/bin/pip install -r requirements.txt
 
-WORKDIR /home/webmcs
+WORKDIR /home/mcs
 
 RUN adduser -D mcs
 

@@ -1,2 +1,2 @@
-docker build . -t webmcs:latest
+podman build . -t webmcs:latest
 

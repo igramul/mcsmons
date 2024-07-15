@@ -1,40 +1,30 @@
-
 from flask import Flask
-
-from mcstatus import MinecraftServer
+from mcstatus import JavaServer
 
 app = Flask(__name__)
 
+server_list = ['zeus', 'zeus:25566']
+
+
 @app.route('/')
-@app.route('/query')
 def root():
-    # If you know the host and port, you may skip this and use MinecraftServer("example.org", 1234)
-    server = MinecraftServer.lookup('gaia')
-
-    # 'query' has to be enabled in a servers' server.properties file.
-    # It may give more information than a ping, such as a full player list or mod information.
-    query = server.query()
-    return 'The server has the following players online: {0}'.format(', '.join(query.players.names))
+    return f'The Minecraft Server Name {server_list}'
 
 
-@app.route('/status')
-def status():
-    # If you know the host and port, you may skip this and use MinecraftServer("example.org", 1234)
-    server = MinecraftServer.lookup('gaia')
-
-    # 'status' is supported by all Minecraft servers that are version 1.7 or higher.
-    status = server.status()
-    return 'The server has {0} players and replied in {1} ms'.format(status.players.online, status.latency)
-
-
-@app.route('/ping')
-def print():
-    server = MinecraftServer.lookup('gaia')
-
-    # 'ping' is supported by all Minecraft servers that are version 1.7 or higher.
-    # It is included in a 'status' call, but is exposed separate if you do not require the additional info.
-    latency = server.ping()
-    return 'The server replied in {0} ms'.format(latency)
+@app.route('/metrics')
+def metrics():    # If you know the host and port, you may skip this and use MinecraftServer("example.org", 1234)
+    ans = ''
+    for server_name in server_list:
+        server = JavaServer.lookup(server_name)
+        s = server.status()
+        ans += 'minecraft_latency{server=%s} %s\n' % (s.description, s.latency)
+        ans += 'minecraft_version{server=%s} %s\n' % (s.description, s.version.name)
+        ans += 'minecraft_users_max{server=%s} %s\n' % (s.description, s.players.max)
+        ans += 'minecraft_player_online{server=%s} %s\n' % (s.description, s.players.online)
+        if s.players.sample:
+            for player in s.players.sample:
+                ans += 'minecraft_users{server=%s, name=%s, uuid=%s} 1\n' % (s.description, player.name, player.uuid)
+    return ans
 
 
 if __name__ == '__main__':
