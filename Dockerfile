@@ -10,6 +10,7 @@ WORKDIR /home/mcs
 RUN adduser -D mcs
 
 COPY mcs.py docker-entrypoint.sh ./
+COPY version.py ./
 
 RUN chmod a+x docker-entrypoint.sh
 
