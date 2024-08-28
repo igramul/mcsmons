@@ -25,14 +25,20 @@ def metrics():    # If you know the host and port, you may skip this and use Min
     ans = ''
     for server_name in server_list:
         server = JavaServer.lookup(server_name)
-        s = server.status()
-        ans += 'minecraft_latency{server="%s"} %s\n' % (s.description, s.latency)
-        ans += 'minecraft_version{server="%s"} %s\n' % (s.description, s.version.name)
-        ans += 'minecraft_users_max{server="%s"} %s\n' % (s.description, s.players.max)
-        ans += 'minecraft_users_online{server="%s"} %s\n' % (s.description, s.players.online)
-        if s.players.sample:
-            for player in s.players.sample:
-                ans += 'minecraft_players{server="%s", name="%s", uuid="%s"} 1\n' % (s.description, player.name, player.uuid)
+        try:
+            s = server.status()
+        except ConnectionRefusedError as e:
+            print(f'Minecraft server error: {e}')
+            ans += 'server_online{server_name="%s"} %s\n' % (server_name, 0)
+        else:
+            ans += 'server_online{server_name="%s"} %s\n' % (server_name, 1)
+            ans += 'minecraft_latency{server="%s"} %s\n' % (s.description, s.latency)
+            ans += 'minecraft_version{server="%s"} %s\n' % (s.description, s.version.name)
+            ans += 'minecraft_users_max{server="%s"} %s\n' % (s.description, s.players.max)
+            ans += 'minecraft_users_online{server="%s"} %s\n' % (s.description, s.players.online)
+            if s.players.sample:
+                for player in s.players.sample:
+                    ans += 'minecraft_players{server="%s", name="%s", uuid="%s"} 1\n' % (s.description, player.name, player.uuid)
     ans += 'minecraft_mcs_count{version="%s"} %s\n' % (version.version, counter)
     counter += 1
     return ans
