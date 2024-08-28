@@ -20,7 +20,7 @@ def root():
 
 
 @app.route('/metrics')
-def metrics():    # If you know the host and port, you may skip this and use MinecraftServer("example.org", 1234)
+def metrics():
     global counter
     ans = ''
     for server_name in server_list:
