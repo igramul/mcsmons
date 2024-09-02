@@ -8,7 +8,7 @@ import version
 app = Flask(__name__)
 
 counter = 0
-server_list = [x.strip() for x in os.getenv('MC_SERVER_LIST').split(',')]
+server_list = [x.strip() for x in os.getenv('MC_SERVER_LIST', 'localhost').split(',')]
 
 
 @app.route('/')
