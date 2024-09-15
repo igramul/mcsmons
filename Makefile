@@ -6,13 +6,13 @@ MC_SERVER_LIST := "192.168.0.30, 192.168.0.30:25566"
 
 .PHONY: start
 start: image
-	podman stop -i mcs
-	podman rm -i mcs
-	podman run -d --restart=always --network slirp4netns --name mcs -p 8080:5000 -e MC_SERVER_LIST=$(MC_SERVER_LIST) mcs:$(VERSION)
+	podman stop -i mcsmons
+	podman rm -i mcsmons
+	podman run -d --restart=always --network slirp4netns --name mcsmons -p 8080:5000 -e MC_SERVER_LIST=$(MC_SERVER_LIST) mcsmons:$(VERSION)
 
 .PHONY: image
 image: venv version.py
-	podman build . -t mcs:$(VERSION)
+	podman build . -t mcsmons:$(VERSION)
 
 .PHONY: version.py
 version.py:

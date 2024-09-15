@@ -1,3 +1,3 @@
 #!/bin/sh
 
-exec /venv/bin/gunicorn -b :5000 --access-logfile - --error-logfile - mcs:app
+exec /venv/bin/gunicorn -b :5000 --access-logfile - --error-logfile - mcsmons:app
