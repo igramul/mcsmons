@@ -4,11 +4,17 @@ BIN := ./venv/bin
 VERSION := $(shell git describe)
 MC_SERVER_LIST := "192.168.0.30, 192.168.0.30:25566"
 
+.PHONY: all
+all: image
+
 .PHONY: start
-start: image
+start: image stop
+	podman run -d --restart=always --network slirp4netns --name mcsmons -p 8080:5000 -e MC_SERVER_LIST=$(MC_SERVER_LIST) mcsmons:$(VERSION)
+
+.PHONY: stop
+stop:
 	podman stop -i mcsmons
 	podman rm -i mcsmons
-	podman run -d --restart=always --network slirp4netns --name mcsmons -p 8080:5000 -e MC_SERVER_LIST=$(MC_SERVER_LIST) mcsmons:$(VERSION)
 
 .PHONY: image
 image: venv version.py
