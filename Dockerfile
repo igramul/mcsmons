@@ -1,4 +1,4 @@
-FROM python:3.10-alpine
+FROM python:3.12-alpine
 
 RUN python3 -m venv venv
 RUN venv/bin/pip install --upgrade pip setuptools
