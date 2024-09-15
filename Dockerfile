@@ -5,18 +5,18 @@ RUN venv/bin/pip install --upgrade pip setuptools
 COPY requirements.txt requirements.txt
 RUN venv/bin/pip install -r requirements.txt
 
-WORKDIR /home/mcs
+WORKDIR /home/mcsmons
 
-RUN adduser -D mcs
+RUN adduser -D mcsmons
 
-COPY mcs.py docker-entrypoint.sh ./
+COPY mcsmons.py docker-entrypoint.sh ./
 COPY version.py ./
 
 RUN chmod a+x docker-entrypoint.sh
 
-ENV FLASK_APP mcs.py
+ENV FLASK_APP mcsmons.py
 
-USER mcs
+USER mcsmons
 
 EXPOSE 5000
 ENTRYPOINT ["./docker-entrypoint.sh"]

@@ -1,2 +1,2 @@
-podman build . -t mcs:latest
+podman build . -t mcsmons:latest
 
