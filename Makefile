@@ -2,7 +2,7 @@
 PYTHON := python3
 BIN := ./venv/bin
 VERSION := $(shell git describe)
-MC_SERVER_LIST := "192.168.0.30, 192.168.0.30:25566"
+MC_SERVER_LIST := "192.168.0.30, 192.168.0.30:25566, 192.168.0.110"
 
 .PHONY: all
 all: image
