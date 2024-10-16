@@ -32,13 +32,18 @@ def metrics():
             ans += 'server_online{server_name="%s"} %s\n' % (server_name, 0)
         else:
             ans += 'server_online{server_name="%s"} %s\n' % (server_name, 1)
-            ans += 'minecraft_latency{server="%s"} %s\n' % (s.description, s.latency)
-            ans += 'minecraft_version{server="%s"} %s\n' % (s.description, s.version.name)
-            ans += 'minecraft_users_max{server="%s"} %s\n' % (s.description, s.players.max)
-            ans += 'minecraft_users_online{server="%s"} %s\n' % (s.description, s.players.online)
+            # since JavaStatusResponse is different for Minecraft Forge Servers we need a hack to get the description
+            if s.raw.get('forgeData'):
+                description = s.raw['description'].get('text')
+            else:
+                description = s.description
+            ans += 'minecraft_latency{server="%s"} %s\n' % (description, s.latency)
+            ans += 'minecraft_version{server="%s"} %s\n' % (description, s.version.name)
+            ans += 'minecraft_users_max{server="%s"} %s\n' % (description, s.players.max)
+            ans += 'minecraft_users_online{server="%s"} %s\n' % (description, s.players.online)
             if s.players.sample:
                 for player in s.players.sample:
-                    ans += 'minecraft_players{server="%s", name="%s", uuid="%s"} 1\n' % (s.description, player.name, player.uuid)
+                    ans += 'minecraft_players{server="%s", name="%s", uuid="%s"} 1\n' % (description, player.name, player.uuid)
     ans += 'minecraft_mcs_count{version="%s"} %s\n' % (version.version, counter)
     counter += 1
     return ans
