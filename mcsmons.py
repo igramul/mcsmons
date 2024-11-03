@@ -24,7 +24,7 @@ def metrics():
     global counter
     ans = ''
     for server_name in server_list:
-        server = JavaServer.lookup(server_name)
+        server = JavaServer.lookup(address=server_name, timeout=0.5)
         try:
             s = server.status()
         except ConnectionRefusedError as e:
