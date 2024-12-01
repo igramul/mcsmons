@@ -14,7 +14,7 @@ start: image stop
 
 .PHONY: stop
 stop:
-	$(CONTAINER_RUNTIME) stop rmcsmon || true &&  $(CONTAINER_RUNTIME) rm mcsmons || true
+	$(CONTAINER_RUNTIME) stop mcsmons || true &&  $(CONTAINER_RUNTIME) rm mcsmons || true
 
 .PHONY: image
 image: venv version.py
