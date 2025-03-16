@@ -2,7 +2,7 @@
 PYTHON := python3
 BIN := ./venv/bin
 VERSION := $(shell git describe)
-MC_SERVER_LIST := "192.168.0.10, 192.168.0.10:25566, 192.168.0.110"
+MC_SERVER_LIST := "192.168.0.101, 192.168.0.101:25566, 192.168.0.110"
 CONTAINER_RUNTIME:=docker
 
 .PHONY: all
