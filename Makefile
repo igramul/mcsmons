@@ -1,7 +1,7 @@
 # System Python
 PYTHON := python3
 BIN := ./venv/bin
-VERSION := $(shell git describe)
+VERSION := $(shell git describe --always --tags)
 MC_SERVER_LIST := "192.168.0.101, 192.168.0.101:25566, 192.168.0.110"
 CONTAINER_RUNTIME:=docker
 
