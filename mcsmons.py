@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask
+from flask import Flask, make_response
 from mcstatus import JavaServer
 
 import version
@@ -49,7 +49,9 @@ def metrics():
                     ans += 'minecraft_players{server="%s", name="%s", uuid="%s"} 1\n' % (description, player.name, player.uuid)
     ans += 'minecraft_mcs_count{version="%s"} %s\n' % (version.version, counter)
     counter += 1
-    return ans
+    response = make_response(ans, 200)
+    response.mimetype = "text/plain"
+    return response
 
 
 if __name__ == '__main__':
