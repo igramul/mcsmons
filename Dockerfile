@@ -14,7 +14,7 @@ COPY version.py ./
 
 RUN chmod a+x docker-entrypoint.sh
 
-ENV FLASK_APP mcsmons.py
+ENV FLASK_APP=mcsmons.py
 
 USER mcsmons
 
