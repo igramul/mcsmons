@@ -1,6 +1,6 @@
 # Minecraft Server Monitoring Service (MCSMONS) Service in Flask
 
-A Flask web server for Minecraft Server monitoring.
+A Flask web server for Minecraft Server monitoring with Prometheus.
 
     ./build.sh
 
@@ -11,3 +11,7 @@ A Flask web server for Minecraft Server monitoring.
 Setup environment variables
 
     MC_SERVER_LIST=zeus, zeus:25566
+
+## Grafana Dashboard
+
+See [grafana](./grafana) for dashboard json file and screen shot.
